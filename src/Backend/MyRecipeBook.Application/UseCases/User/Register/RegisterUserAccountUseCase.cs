@@ -1,4 +1,5 @@
-﻿using MyRecipeBook.Communication.Requests;
+﻿using Mapster;
+using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Exception.ExceptionsBase;
 
 namespace MyRecipeBook.Application.UseCases.User.Register;
@@ -8,6 +9,8 @@ public class RegisterUserAccountUseCase
     public void Execute(RequestRegisterUserAccountJson request)
     {
         ValidateAndThrowFailures(request);
+
+        var user = request.Adapt<Domain.Entities.User>();
     }
 
     private void ValidateAndThrowFailures(RequestRegisterUserAccountJson request)
