@@ -1,8 +1,9 @@
 ﻿using MyRecipeBook.Domain.Entities;
+using MyRecipeBook.Domain.Repositories.User;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories;
 
-internal sealed class UserRepository
+internal sealed class UserRepository : IUserWriteOnlyRepository
 {
     private readonly MyRecipeBookDbContext _dbContext;
     public UserRepository(MyRecipeBookDbContext dbContext)
