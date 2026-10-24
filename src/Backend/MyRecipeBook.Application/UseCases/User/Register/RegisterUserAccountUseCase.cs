@@ -1,24 +1,28 @@
 ﻿using Mapster;
 using MyRecipeBook.Communication.Requests;
+using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Exception.ExceptionsBase;
 
 namespace MyRecipeBook.Application.UseCases.User.Register;
 
-internal class RegisterUserAccountUseCase(IPasswordHasher passwordHasher) : IRegisterUserAccountUseCase
+internal class RegisterUserAccountUseCase(IPasswordHasher passwordHasher, IUserWriteOnlyRepository userWriteOnlyRepository) : IRegisterUserAccountUseCase
 {
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
+    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository = userWriteOnlyRepository;
 
-    public void Execute(RequestRegisterUserAccountJson request)
+    public async Task Execute(RequestRegisterUserAccountJson request)
     {
         ValidateAndThrowFailures(request);
 
         var user = request.Adapt<Domain.Entities.User>();
 
         user.Password = _passwordHasher.HashPassword(request.Password);
+
+        await _userWriteOnlyRepository.Add(user);
     }
 
-    private void ValidateAndThrowFailures(RequestRegisterUserAccountJson request)
+    private static void ValidateAndThrowFailures(RequestRegisterUserAccountJson request)
     {
         var validator = new RegisterUserAccountValidator();
 
