@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Backend\MyRecipeBook.Application\MyRecipeBook.Application.csproj" />
+    <ProjectReference Include="..\CommomTestUtilities\CommomTestUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
