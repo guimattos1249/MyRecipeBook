@@ -7,7 +7,7 @@ using MyRecipeBook.Exception;
 using MyRecipeBook.Exception.ExceptionsBase;
 using Shouldly;
 
-namespace UseCases.Test.User.Register;
+namespace UseCases.Tests.User.Register;
 
 public class RegisterUserAccountUseCaseTests
 {
