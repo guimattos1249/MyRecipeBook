@@ -10,7 +10,7 @@ using MyRecipeBook.Exception.ExceptionsBase;
 
 namespace MyRecipeBook.Application.UseCases.User.Register;
 
-internal class RegisterUserAccountUseCase(
+public class RegisterUserAccountUseCase(
     IPasswordHasher passwordHasher, 
     IUserWriteOnlyRepository userWriteOnlyRepository, 
     IUserReadOnlyRepository userReadOnlyRepository,
