@@ -12,7 +12,8 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/CommomTestUtilities/CommomTestUtilities.csproj" Id="ca9bb8f2-e53b-4d6e-a1a9-da254af9aae1" />
-    <Project Path="tests/UseCases.Test/UseCases.Test.csproj" Id="c9de0e40-fe9e-4803-8d5d-e9457ca66eaf" />
+    <Project Path="tests/UseCases.Test/UseCases.Tests.csproj" Id="c9de0e40-fe9e-4803-8d5d-e9457ca66eaf" />
     <Project Path="tests/Validators.Tests/Validators.Tests.csproj" Id="30d679a9-a9de-49f9-9da2-cdea410cc98a" />
+    <Project Path="tests/WebApi.Tests/WebApi.Tests.csproj" Id="97713cb8-b8ca-461a-9d9f-e058c18768f9" />
   </Folder>
 </Solution>
