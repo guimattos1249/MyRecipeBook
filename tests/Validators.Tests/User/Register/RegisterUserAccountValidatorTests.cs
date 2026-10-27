@@ -1,5 +1,6 @@
 ﻿using CommomTestUtilities.Requests;
 using MyRecipeBook.Application.UseCases.User.Register;
+using Shouldly;
 
 namespace Validators.Tests.User.Register;
 
@@ -14,6 +15,6 @@ public class RegisterUserAccountValidatorTests
 
         var result = validator.Validate(request);
 
-        Assert.True(result.IsValid);
+        result.IsValid.ShouldBeTrue();
     }
 }
