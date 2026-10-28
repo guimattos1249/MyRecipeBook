@@ -4,16 +4,23 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- develop
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UseDotNet@2
+  displayName: 'Installing .NET SDK'
+  inputs:
+    version: 10.x
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: DotNetCoreCLI@2
+  displayName: 'Build'
+  inputs:
+    command: build
+
+- task: DotNetCoreCLI@2
+  displayName: 'Tests'
+  inputs:
+    command: test
