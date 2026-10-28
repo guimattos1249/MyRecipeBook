@@ -2,6 +2,7 @@
 using MyRecipeBook.Application.UseCases.User.Register;
 using MyRecipeBook.Exception;
 using Shouldly;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Validators.Tests.User.Register;
 
@@ -19,12 +20,16 @@ public class RegisterUserAccountValidatorTests
         result.IsValid.ShouldBeTrue();
     }
 
-    [Fact]
-    public void Validate_ShouldHaveError_WhenNameIsEmpty()
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    [InlineData("    ")]
+    [SuppressMessage("Usage", "xUnit1012:Null should only be used for nullable parameters", Justification = "Intentional becuse is a unit test")]
+    public void Validate_ShouldHaveError_WhenNameIsEmpty(string name)
     {
         var request = RequestRegisterUserAccountJsonBuilder.Build() with
         {
-            Name = string.Empty
+            Name = name
         };
 
         var validator = new RegisterUserAccountValidator();
@@ -39,12 +44,16 @@ public class RegisterUserAccountValidatorTests
         });
     }
 
-    [Fact]
-    public void Validate_ShouldHaveError_WhenEmailIsEmpty()
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    [InlineData("    ")]
+    [SuppressMessage("Usage", "xUnit1012:Null should only be used for nullable parameters", Justification = "Intentional becuse is a unit test")]
+    public void Validate_ShouldHaveError_WhenEmailIsEmpty(string email)
     {
         var request = RequestRegisterUserAccountJsonBuilder.Build() with
         {
-            Email = string.Empty
+            Email = email
         };
 
         var validator = new RegisterUserAccountValidator();
