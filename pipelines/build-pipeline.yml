@@ -25,3 +25,10 @@ stages:
       displayName: 'Tests'
       inputs:
         command: test
+        publishTestResults: true
+        arguments: '--settings tests/coverlet.runsettings'
+    - task: PublishCodeCoverageResults@2
+      displayName: 'Publish Code Coverage'
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
