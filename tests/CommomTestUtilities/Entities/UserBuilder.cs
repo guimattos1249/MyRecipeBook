@@ -6,20 +6,24 @@ namespace CommomTestUtilities.Entities;
 
 public class UserBuilder
 {
-    public static User Build()
+    public static (User user, string password) Build()
     {
-        return new Faker<User>()
+        var (password, hashedPassword) = GenerateRandomPassword();
+
+        var user = new Faker<User>()
             .RuleFor(u => u.Name, f => f.Person.FirstName)
             .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Name))
-            .RuleFor(u => u.Password, _ => GenerateRandomPassword());
+            .RuleFor(u => u.Password, _ => hashedPassword);
+
+        return (user, password);
     }
 
-    private static string GenerateRandomPassword()
+    private static (string password, string hashedPassword) GenerateRandomPassword()
     {
         var passwordEncripter = new IPasswordHasherBuilder().Build();
 
         var password = new Faker().Internet.Password();
 
-        return passwordEncripter.HashPassword(password);
+        return (password, passwordEncripter.HashPassword(password));
     }
 }
