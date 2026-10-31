@@ -1,42 +1,27 @@
 ﻿using CommomTestUtilities.Requests;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
-using MyRecipeBook.Infrastructure.DataAccess;
 using Shouldly;
 using System.Globalization;
 using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
 using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.User.Register;
 
-public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFactory>
+public class RegisterUserAccountTests : BaseIntegrationTest
 {
     private const string REQUEST_URI = "/users";
-
-    private readonly HttpClient _client;
-
-    private readonly MyRecipeBookDbContext _dbContext;
     
-    public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory)
-    {
-        _client = factory.CreateClient();
-
-        var scope = factory.Services.CreateScope();
-
-        _dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
-    }
+    public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory) : base(factory) { }
 
     [Fact]
     public async Task Success()
     {
         var request = RequestRegisterUserAccountJsonBuilder.Build();
 
-        var response = await _client.PostAsJsonAsync(REQUEST_URI, request);
+        var response = await Post(REQUEST_URI, request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
 
@@ -47,7 +32,7 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(request.Name);
         responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
 
-        var userExists = await _dbContext.Users.AnyAsync(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+        var userExists = await DbContext.Users.AnyAsync(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
         
         userExists.ShouldBeTrue();
     }
@@ -61,10 +46,7 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
             Name = string.Empty
         };
 
-        _client.DefaultRequestHeaders.AcceptLanguage.Clear();
-        _client.DefaultRequestHeaders.AcceptLanguage.ParseAdd(culture);
-
-        var response = await _client.PostAsJsonAsync(REQUEST_URI, request);
+        var response = await Post(REQUEST_URI, request, culture);
         
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
@@ -82,7 +64,7 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
             errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(expectedErrorMessage));
         });
 
-        var userExists = await _dbContext.Users.AnyAsync(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+        var userExists = await DbContext.Users.AnyAsync(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
 
         userExists.ShouldBeFalse();
     }
