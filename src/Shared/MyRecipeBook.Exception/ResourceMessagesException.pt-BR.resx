@@ -132,6 +132,9 @@
   <data name="VALIDATION_INVALID_PASSWORD" xml:space="preserve">
     <value>Senha inválida</value>
   </data>
+  <data name="VALIDATION_LOGIN_INVALID" xml:space="preserve">
+    <value>Credenciais Inválidas</value>
+  </data>
   <data name="VALIDATION_NAME_REQUIRED" xml:space="preserve">
     <value>O nome é obrigatório</value>
   </data>
