@@ -5,21 +5,24 @@ using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
+using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Exception;
 using MyRecipeBook.Exception.ExceptionsBase;
 
 namespace MyRecipeBook.Application.UseCases.User.Register;
 
 public class RegisterUserAccountUseCase(
-    IPasswordHasher passwordHasher, 
-    IUserWriteOnlyRepository userWriteOnlyRepository, 
+    IPasswordHasher passwordHasher,
+    IUserWriteOnlyRepository userWriteOnlyRepository,
     IUserReadOnlyRepository userReadOnlyRepository,
-    IUnitOfWork unitOfWork) : IRegisterUserAccountUseCase
+    IUnitOfWork unitOfWork,
+    IAccessTokenGenerator accessTokenGenerator) : IRegisterUserAccountUseCase
 {
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
     private readonly IUserWriteOnlyRepository _userWriteOnlyRepository = userWriteOnlyRepository;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository = userReadOnlyRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IAccessTokenGenerator _accessTokenGenerator = accessTokenGenerator;
 
     public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserAccountJson request)
     {
@@ -33,7 +36,9 @@ public class RegisterUserAccountUseCase(
 
         await _unitOfWork.Commit();
 
-        return new ResponseRegisteredUserJson(user.Name, new ResponseTokensJson(string.Empty, string.Empty));
+        return new ResponseRegisteredUserJson(
+            user.Name, 
+            new ResponseTokensJson(_accessTokenGenerator.Generate(user), string.Empty));
     }
 
     private async Task ValidateAndThrowFailures(RequestRegisterUserAccountJson request)
