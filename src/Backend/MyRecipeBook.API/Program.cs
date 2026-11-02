@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using MyRecipeBook.API.Converters;
 using MyRecipeBook.API.Filters;
 using MyRecipeBook.Application;
 using MyRecipeBook.Communication.Responses;
-using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Exception;
 using MyRecipeBook.Infrastructure;
@@ -26,7 +26,29 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "JWT Authorization header using the Bearer scheme.",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(openApiDocument =>
+    {
+        return new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecuritySchemeReference("Bearer", openApiDocument),
+                []
+            }
+        };
+    });
+});
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
@@ -86,7 +108,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 {
                     context.Fail("User not found or inactive.");
                 }
-            }
+            },
             OnChallenge = async context =>
             {
                 context.HandleResponse();
