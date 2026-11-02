@@ -73,16 +73,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 var userIdClaim = context.Principal?.FindFirstValue(JwtRegisteredClaimNames.Sub)
                 ?? context.Principal?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (userIdClaim.IsEmpty())
+                if (Guid.TryParse(userIdClaim, out Guid userId) == false)
                 {
-                    context.Fail("Invalid subject.");
+                    context.Fail("Invalid token subject.");
                     return;
                 }
 
                 var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserReadOnlyRepository>();
-                if (!await userRepository.ExistisActiveUserWithId(Guid.Parse(userIdClaim)))
+                if (!await userRepository.ExistisActiveUserWithId(userId))
                 {
-                    context.Fail("Invalid user.");
+                    context.Fail("User not found or inactive.");
                 }
             }
         };
