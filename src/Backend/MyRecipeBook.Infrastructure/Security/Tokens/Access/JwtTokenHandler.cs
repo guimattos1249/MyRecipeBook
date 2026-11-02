@@ -33,7 +33,7 @@ internal sealed class JwtTokenHandler(uint expirationTimeInMinutes, string signi
 
     private SymmetricSecurityKey Credentials()
     {
-        var keyBytes = Encoding.UTF32.GetBytes(_signingKey);
+        var keyBytes = Encoding.UTF8.GetBytes(_signingKey);
         
         return new SymmetricSecurityKey(keyBytes);
     }
