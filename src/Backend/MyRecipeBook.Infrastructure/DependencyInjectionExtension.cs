@@ -19,16 +19,27 @@ public static class DependencyInjectionExtension
         public void AddInfrastructure(IConfiguration configuration)
         {
             services.AddScoped<IPasswordHasher, Argon2PasswordHasher>();
-            services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
-            services.AddScoped<IUserReadOnlyRepository, UserRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddRepositories();
+
+            services.AddTokensHandlers(configuration);
 
             services.AddDbContext<MyRecipeBookDbContext>(config =>
             {
                 var connectionString = configuration.GetConnectionString("DefaultConnection");
                 config.UseMySQL(connectionString!);
             });
+        }
 
+        private void AddRepositories()
+        {
+            services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
+            services.AddScoped<IUserReadOnlyRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+        }
+
+        private void AddTokensHandlers(IConfiguration configuration)
+        {
             var expirationTimeInMinutes = configuration.GetValue<uint>("Jwt:ExpirationTimeInMinutes");
             var signingKey = configuration.GetValue<string>("Jwt:SigningKey")!;
 
