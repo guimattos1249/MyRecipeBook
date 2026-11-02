@@ -70,6 +70,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Needed Access Token.
+        /// </summary>
+        public static string VALIDATION_ACCESS_TOKEN_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_ACCESS_TOKEN_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This email is already in use.
         /// </summary>
         public static string VALIDATION_EMAIL_ALREADY_EXISTS {
@@ -129,6 +138,15 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_PASSWORD_MIN_LENGTH {
             get {
                 return ResourceManager.GetString("VALIDATION_PASSWORD_MIN_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access Denied.
+        /// </summary>
+        public static string VALIDATION_RESOURCE_ACCESS_DENIED {
+            get {
+                return ResourceManager.GetString("VALIDATION_RESOURCE_ACCESS_DENIED", resourceCulture);
             }
         }
     }
