@@ -5,8 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using MyRecipeBook.API.Converters;
 using MyRecipeBook.API.Filters;
 using MyRecipeBook.Application;
+using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories.User;
+using MyRecipeBook.Exception;
 using MyRecipeBook.Infrastructure;
 using MyRecipeBook.Infrastructure.Migrations;
 using System.Globalization;
@@ -84,6 +86,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 {
                     context.Fail("User not found or inactive.");
                 }
+            }
+            OnChallenge = async context =>
+            {
+                context.HandleResponse();
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+
+                var response = context.AuthenticateFailure switch
+                {
+                    null => new ResponseErrorJson(ResourceMessagesException.VALIDATION_ACCESS_TOKEN_REQUIRED),
+                    SecurityTokenExpiredException => new ResponseErrorJson("Token has expired.", true),
+                    _ => new ResponseErrorJson(ResourceMessagesException.VALIDATION_RESOURCE_ACCESS_DENIED)
+                };
+
+                await context.Response.WriteAsJsonAsync(response);
             }
         };
     });

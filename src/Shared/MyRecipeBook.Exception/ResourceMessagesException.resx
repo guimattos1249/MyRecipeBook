@@ -120,6 +120,9 @@
   <data name="UNKNOW_ERROR" xml:space="preserve">
     <value>Unknow error</value>
   </data>
+  <data name="VALIDATION_ACCESS_TOKEN_REQUIRED" xml:space="preserve">
+    <value>Needed Access Token</value>
+  </data>
   <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>This email is already in use</value>
   </data>
@@ -140,5 +143,8 @@
   </data>
   <data name="VALIDATION_PASSWORD_MIN_LENGTH" xml:space="preserve">
     <value>The password must be at least 6 characters long</value>
+  </data>
+  <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
+    <value>Access Denied</value>
   </data>
 </root>
