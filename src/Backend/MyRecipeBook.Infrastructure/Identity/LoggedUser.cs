@@ -16,7 +16,7 @@ internal class LoggedUser(IAccessTokenProvider accessTokenProvider, MyRecipeBook
     {
         var userId = GetUserId();
 
-        return await _dbContext.Users.FirstAsync(u => u.Active && u.Id == userId);
+        return await _dbContext.Users.AsNoTracking().FirstAsync(u => u.Active && u.Id == userId);
     }
 
     public Guid GetUserId()
@@ -27,8 +27,8 @@ internal class LoggedUser(IAccessTokenProvider accessTokenProvider, MyRecipeBook
 
         var jsonWebToken = handler.ReadJsonWebToken(accessToken);
 
-        var sub = jsonWebToken.Claims.First(claim => claim.Type.Equals(JwtRegisteredClaimNames.Sub));
+        var sub = jsonWebToken.Subject;
 
-        return Guid.Parse(sub.Value);
+        return Guid.Parse(sub);
     }
 }
