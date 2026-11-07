@@ -123,6 +123,9 @@
   <data name="VALIDATION_ACCESS_TOKEN_REQUIRED" xml:space="preserve">
     <value>Access Token é obrigatório</value>
   </data>
+  <data name="VALIDATION_CURRENT_PASSWORD_INCORRECT" xml:space="preserve">
+    <value>A senha atual informada está incorreta</value>
+  </data>
   <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>Este e-mail já está em uso</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="VALIDATION_PASSWORD_MIN_LENGTH" xml:space="preserve">
     <value>A senha tem que ter no mínino 6 caracteres</value>
+  </data>
+  <data name="VALIDATION_PASSWORD_REQUIRED" xml:space="preserve">
+    <value>A senha não pode ser vazia</value>
   </data>
   <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
     <value>Acesso Negado</value>

@@ -79,6 +79,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect current password.
+        /// </summary>
+        public static string VALIDATION_CURRENT_PASSWORD_INCORRECT {
+            get {
+                return ResourceManager.GetString("VALIDATION_CURRENT_PASSWORD_INCORRECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This email is already in use.
         /// </summary>
         public static string VALIDATION_EMAIL_ALREADY_EXISTS {
@@ -138,6 +147,15 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_PASSWORD_MIN_LENGTH {
             get {
                 return ResourceManager.GetString("VALIDATION_PASSWORD_MIN_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password must not be empty.
+        /// </summary>
+        public static string VALIDATION_PASSWORD_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_PASSWORD_REQUIRED", resourceCulture);
             }
         }
         
