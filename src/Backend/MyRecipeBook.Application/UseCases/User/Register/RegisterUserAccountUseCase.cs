@@ -47,7 +47,7 @@ public class RegisterUserAccountUseCase(
 
         var result = validator.Validate(request);
 
-        var emailExists = await _userReadOnlyRepository.ExistisActiveUserWithEmail(request.Email);
+        var emailExists = await _userReadOnlyRepository.ExistsActiveUserWithEmail(request.Email);
         if (emailExists)
         {
             result.Errors.Add(new ValidationFailure("Email", ResourceMessagesException.VALIDATION_EMAIL_ALREADY_EXISTS));
