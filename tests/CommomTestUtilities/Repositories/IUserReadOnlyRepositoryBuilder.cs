@@ -14,7 +14,7 @@ public class IUserReadOnlyRepositoryBuilder
 
     public void ExistisActiveUserWithEmail(string email)
     {
-        _mock.Setup(repository => repository.ExistisActiveUserWithEmail(email)).ReturnsAsync(true);
+        _mock.Setup(repository => repository.ExistsActiveUserWithEmail(email)).ReturnsAsync(true);
     }
 
     public void GetByEmail(User user)

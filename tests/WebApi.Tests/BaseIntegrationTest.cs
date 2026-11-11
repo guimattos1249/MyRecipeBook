@@ -40,6 +40,15 @@ public abstract class BaseIntegrationTest : IClassFixture<MyRecipeBookApplicatio
         return await _client.GetAsync(requestUri);
     }
 
+    protected async Task<HttpResponseMessage> Patch(string requestUri, object request, string accessToken, string culture = "en")
+    {
+        ChangeRequestCulture(culture);
+
+        AuthorizeRequest(accessToken);
+
+        return await _client.PatchAsJsonAsync(requestUri, request);
+    }
+
     private void ChangeRequestCulture(string culture)
     {
         _client.DefaultRequestHeaders.AcceptLanguage.Clear();
