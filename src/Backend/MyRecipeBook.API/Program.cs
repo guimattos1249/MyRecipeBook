@@ -109,7 +109,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 }
 
                 var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserReadOnlyRepository>();
-                if (!await userRepository.ExistisActiveUserWithId(userId))
+                if (!await userRepository.ExistsActiveUserWithId(userId))
                 {
                     context.Fail("User not found or inactive.");
                 }

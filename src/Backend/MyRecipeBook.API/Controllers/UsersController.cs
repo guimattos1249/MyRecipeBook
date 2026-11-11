@@ -6,7 +6,6 @@ using MyRecipeBook.Application.UseCases.User.Register;
 using MyRecipeBook.Application.UseCases.User.Update;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
-using System.Formats.Asn1;
 
 namespace MyRecipeBook.API.Controllers;
 
@@ -48,7 +47,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
-    [HttpPatch("password")]
+    [HttpPatch("change-password")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
